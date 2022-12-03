@@ -20,18 +20,40 @@ const gameBoard = (function () {
 		}
 	};
 
-	const _isChoiceValid = (choice) => choice === "X" || choice === "O";
+	const _isChoiceValid = function (choice) {
+		return choice === "X" || choice === "O" || choice === null;
+	};
 
-	const _isPositionValid = (position) => position < 9 && position > -1;
+	const _isPositionValid = function (position) {
+		return position < 9 && position > -1;
+	};
+
+	const resetBoard = function () {
+		for (let i = 0; i < 9; i++) {
+			gameBoard.change(null, i);
+		}
+	};
 
 	return {
 		showItemAt,
 		change,
+		resetBoard,
 	};
 })();
 
 // Player Factory
 const playerFactory = function (name, choice) {
 	const playMove = (position) => gameBoard.change(choice, position);
+
 	return { name, choice, playMove };
 };
+
+const ticTacToe = (function () {
+	const startNewGame = function () {
+		gameBoard.resetBoard();
+	};
+
+	const checkGameStatus = function () {};
+
+	return { startNewGame };
+})();
