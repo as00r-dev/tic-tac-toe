@@ -41,7 +41,7 @@ const gameBoard = (function () {
 	};
 })();
 
-// Player Factory
+// Player factory
 const playerFactory = function (name, choice) {
 	const playMove = (position) => gameBoard.change(choice, position);
 
@@ -50,11 +50,26 @@ const playerFactory = function (name, choice) {
 
 // Main Game module
 const ticTacToe = (function () {
+	const players = [];
+
 	const startNewGame = function () {
 		gameBoard.resetBoard();
+		_emptyPlayersArray();
 	};
 
-	return { startNewGame };
+	const _emptyPlayersArray = function () {
+		for (let i = 0; i < players.length; i++) {
+			players.pop();
+		}
+	};
+
+	const createPlayer = function (name, choice) {
+		if (players.length < 2) {
+			players.push(playerFactory(name, choice));
+		}
+	};
+
+	return { startNewGame, createPlayer };
 })();
 
 // Display Controller Module
