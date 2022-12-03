@@ -16,7 +16,7 @@ const gameBoard = (function () {
 	};
 
 	const _isInputValid = function (choice, position) {
-		return position >= 8 || position <= 0 || (choice !== "X" && choice !== "O")
+		return (position > 8 || position < 0) && (choice !== "X" || choice !== "O")
 			? false
 			: true;
 	};
