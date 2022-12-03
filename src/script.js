@@ -1,24 +1,6 @@
 // A module to interact with board
 const gameBoard = (function () {
-	const board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
-
-	const showItemAt = function (position) {
-		if (_isPositionValid(position)) {
-			const itemAtPosition = `${board[position]}`;
-			return itemAtPosition;
-		} else {
-			return `ERROR: ${position} is not a position`;
-		}
-	};
-
-	const change = function (choice, position) {
-		if (_isChoiceValid(choice) && _isPositionValid(position)) {
-			board[position] = choice;
-			return `SUCCESS: added ${choice} at ${position}`;
-		} else {
-			return `ERROR: can't add ${choice} at ${position}`;
-		}
-	};
+	const _board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
 
 	const _isChoiceValid = function (choice) {
 		return choice === "X" || choice === "O" || choice === null;
@@ -28,9 +10,27 @@ const gameBoard = (function () {
 		return position < 9 && position > -1;
 	};
 
+	const showItemAt = function (position) {
+		if (_isPositionValid(position)) {
+			const itemAtPosition = `${_board[position]}`;
+			return itemAtPosition;
+		} else {
+			return `ERROR: ${position} is not a position`;
+		}
+	};
+
+	const change = function (choice, position) {
+		if (_isChoiceValid(choice) && _isPositionValid(position)) {
+			_board[position] = choice;
+			return `SUCCESS: added ${choice} at ${position}`;
+		} else {
+			return `ERROR: can't add ${choice} at ${position}`;
+		}
+	};
+
 	const resetBoard = function () {
 		for (let i = 0; i < 9; i++) {
-			gameBoard.change(null, i);
+			change(null, i);
 		}
 	};
 
@@ -42,30 +42,31 @@ const gameBoard = (function () {
 })();
 
 // Player factory
-const playerFactory = function (name, choice) {
-	const playMove = (position) => gameBoard.change(choice, position);
-
-	return { name, choice, playMove };
-};
 
 // Main Game module
 const ticTacToe = (function () {
-	const players = [];
+	const _players = [];
+
+	const _playerFactory = function (name, choice) {
+		const playMove = (position) => gameBoard.change(choice, position);
+
+		return { name, choice, playMove };
+	};
+
+	const _emptyPlayersArray = function () {
+		for (let i = 0; i < _players.length; i++) {
+			_players.pop();
+		}
+	};
 
 	const startNewGame = function () {
 		gameBoard.resetBoard();
 		_emptyPlayersArray();
 	};
 
-	const _emptyPlayersArray = function () {
-		for (let i = 0; i < players.length; i++) {
-			players.pop();
-		}
-	};
-
 	const createPlayer = function (name, choice) {
-		if (players.length < 2) {
-			players.push(playerFactory(name, choice));
+		if (_players.length < 2) {
+			_players.push(_playerFactory(name, choice));
 		}
 	};
 
@@ -74,13 +75,13 @@ const ticTacToe = (function () {
 
 // Module to interact with DOM
 const DOM = (function () {
-	const gridBoxes = document.querySelectorAll(".box");
+	const _gridBoxes = document.querySelectorAll(".box");
 
 	const displayBoardOnScreen = function () {
 		for (let i = 0; i < 9; i++) {
-			gridBoxes[i].textContent = "";
+			_gridBoxes[i].textContent = "";
 			if (gameBoard.showItemAt(i) !== "null") {
-				gridBoxes[i].textContent = gameBoard.showItemAt(i);
+				_gridBoxes[i].textContent = gameBoard.showItemAt(i);
 			}
 		}
 	};
