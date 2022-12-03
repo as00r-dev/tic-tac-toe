@@ -34,9 +34,10 @@ const gameBoard = (function () {
 	};
 })();
 
-// A module to interact with DOM
-const displayController = (function (doc) {
-	const render = function () {
-		doc.getElementById();
+// Player Factory
+const playerFactory = function (name, choice) {
+	const playMove = function (position) {
+		return gameBoard.change(choice, position);
 	};
-})(document);
+	return { name, choice, playMove };
+};
