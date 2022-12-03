@@ -1,29 +1,36 @@
-// A module to interact with board;
+// A module to interact with board
 const gameBoard = (function () {
 	const board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
 
-	const showBoard = function () {
-		return board;
-	};
-
-	const changeBoard = function (choice, position) {
-		if (_isInputValid(choice, position)) {
-			board[position] = choice;
-			return "SUCCESS!";
+	const showItemAt = function (position) {
+		if (_isPositionValid(position)) {
+			const itemAtPosition = `${board[position]}`;
+			return itemAtPosition;
 		} else {
-			return "FAILED!";
+			return `ERROR: ${position} is not a position`;
 		}
 	};
 
-	const _isInputValid = function (choice, position) {
-		return (position > 8 || position < 0) && (choice !== "X" || choice !== "O")
-			? false
-			: true;
+	const change = function (choice, position) {
+		if (_isChoiceValid(choice) && _isPositionValid(position)) {
+			board[position] = choice;
+			return `SUCCESS: added ${choice} at ${position}`;
+		} else {
+			return `ERROR: can't add ${choice} at ${position}`;
+		}
+	};
+
+	const _isChoiceValid = function (choice) {
+		return choice === "X" || choice === "O";
+	};
+
+	const _isPositionValid = function (position) {
+		return position < 9 && position > -1;
 	};
 
 	return {
-		showBoard,
-		changeBoard,
+		showItemAt,
+		change,
 	};
 })();
 
