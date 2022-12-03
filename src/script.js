@@ -76,12 +76,14 @@ const ticTacToe = (function () {
 const DOM = (function () {
 	const gridBoxes = document.querySelectorAll(".box");
 
-	const renderBoard = function () {
+	const displayBoardOnScreen = function () {
 		for (let i = 0; i < 9; i++) {
 			gridBoxes[i].textContent = "";
-			gridBoxes[i].textContent = gameBoard.showItemAt(i);
+			if (gameBoard.showItemAt(i) !== "null") {
+				gridBoxes[i].textContent = gameBoard.showItemAt(i);
+			}
 		}
 	};
 
-	return { renderBoard };
+	return { displayBoardOnScreen };
 })();
