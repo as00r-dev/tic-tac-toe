@@ -48,12 +48,14 @@ const playerFactory = function (name, choice) {
 	return { name, choice, playMove };
 };
 
+// Main Game module
 const ticTacToe = (function () {
 	const startNewGame = function () {
 		gameBoard.resetBoard();
 	};
 
-	const checkGameStatus = function () {};
-
 	return { startNewGame };
 })();
+
+// Display Controller Module
+const displayController = (function () {})();
