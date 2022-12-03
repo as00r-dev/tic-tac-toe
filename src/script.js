@@ -20,13 +20,9 @@ const gameBoard = (function () {
 		}
 	};
 
-	const _isChoiceValid = function (choice) {
-		return choice === "X" || choice === "O";
-	};
+	const _isChoiceValid = (choice) => choice === "X" || choice === "O";
 
-	const _isPositionValid = function (position) {
-		return position < 9 && position > -1;
-	};
+	const _isPositionValid = (position) => position < 9 && position > -1;
 
 	return {
 		showItemAt,
@@ -36,8 +32,6 @@ const gameBoard = (function () {
 
 // Player Factory
 const playerFactory = function (name, choice) {
-	const playMove = function (position) {
-		return gameBoard.change(choice, position);
-	};
+	const playMove = (position) => gameBoard.change(choice, position);
 	return { name, choice, playMove };
 };
