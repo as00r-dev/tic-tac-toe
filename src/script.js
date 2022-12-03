@@ -72,5 +72,16 @@ const ticTacToe = (function () {
 	return { startNewGame, createPlayer };
 })();
 
-// Display Controller Module
-const displayController = (function () {})();
+// Module to interact with DOM
+const DOM = (function () {
+	const gridBoxes = document.querySelectorAll(".box");
+
+	const renderBoard = function () {
+		for (let i = 0; i < 9; i++) {
+			gridBoxes[i].textContent = "";
+			gridBoxes[i].textContent = gameBoard.showItemAt(i);
+		}
+	};
+
+	return { renderBoard };
+})();
