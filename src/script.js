@@ -10,7 +10,7 @@ const gameBoard = (function () {
 		return position < 9 && position > -1;
 	};
 
-	const showItemAt = function (position) {
+	const getItemAt = function (position) {
 		if (_isPositionValid(position)) {
 			const itemAtPosition = `${_board[position]}`;
 			return itemAtPosition;
@@ -19,7 +19,7 @@ const gameBoard = (function () {
 		}
 	};
 
-	const changeItemAt = function (choice, position) {
+	const setItemAt = function (choice, position) {
 		if (_isChoiceValid(choice) && _isPositionValid(position)) {
 			_board[position] = choice;
 			return `SUCCESS: added ${choice} at ${position}`;
@@ -30,13 +30,13 @@ const gameBoard = (function () {
 
 	const resetBoard = function () {
 		for (let i = 0; i < 9; i++) {
-			change(null, i);
+			setItemAt(null, i);
 		}
 	};
 
 	return {
-		showItemAt,
-		changeItemAt,
+		getItemAt,
+		setItemAt,
 		resetBoard,
 	};
 })();
@@ -46,7 +46,7 @@ const ticTacToe = (function () {
 	const _players = [];
 
 	const _playerFactory = function (name, choice) {
-		const playMove = (position) => gameBoard.changeItemAt(choice, position);
+		const playMove = (position) => gameBoard.setItemAt(choice, position);
 
 		return { name, choice, playMove };
 	};
@@ -76,16 +76,18 @@ const DOM = (function () {
 	const _gridBoxes = document.querySelectorAll(".box");
 
 	_gridBoxes.forEach((box) => {
-		box.addEventListener("click", function (e) {
-			console.log(e);
-		});
+		box.addEventListener("click", handleClick);
 	});
+
+	function handleClick(e) {
+		console.log(e.target);
+	}
 
 	const displayBoardOnScreen = function () {
 		for (let i = 0; i < 9; i++) {
 			_gridBoxes[i].textContent = "";
-			if (gameBoard.showItemAt(i) !== "null") {
-				_gridBoxes[i].textContent = gameBoard.showItemAt(i);
+			if (gameBoard.getItemAt(i) !== "null") {
+				_gridBoxes[i].textContent = gameBoard.getItemAt(i);
 			}
 		}
 	};
