@@ -1,4 +1,4 @@
-// A module to interact with board
+// Board Module
 const gameBoard = (function () {
 	const _board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
 
@@ -19,7 +19,7 @@ const gameBoard = (function () {
 		}
 	};
 
-	const change = function (choice, position) {
+	const changeItemAt = function (choice, position) {
 		if (_isChoiceValid(choice) && _isPositionValid(position)) {
 			_board[position] = choice;
 			return `SUCCESS: added ${choice} at ${position}`;
@@ -36,19 +36,17 @@ const gameBoard = (function () {
 
 	return {
 		showItemAt,
-		change,
+		changeItemAt,
 		resetBoard,
 	};
 })();
-
-// Player factory
 
 // Main Game module
 const ticTacToe = (function () {
 	const _players = [];
 
 	const _playerFactory = function (name, choice) {
-		const playMove = (position) => gameBoard.change(choice, position);
+		const playMove = (position) => gameBoard.changeItemAt(choice, position);
 
 		return { name, choice, playMove };
 	};
@@ -76,6 +74,12 @@ const ticTacToe = (function () {
 // Module to interact with DOM
 const DOM = (function () {
 	const _gridBoxes = document.querySelectorAll(".box");
+
+	_gridBoxes.forEach((box) => {
+		box.addEventListener("click", function (e) {
+			console.log(e);
+		});
+	});
 
 	const displayBoardOnScreen = function () {
 		for (let i = 0; i < 9; i++) {
