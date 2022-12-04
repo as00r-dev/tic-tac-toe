@@ -1,4 +1,4 @@
-// Board Module
+// Board
 const gameBoard = (function () {
 	const _board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
 
@@ -23,7 +23,7 @@ const gameBoard = (function () {
 	};
 })();
 
-// Main Game module
+// Main Game
 const ticTacToe = (function () {
 	let _playerX = {};
 	let _playerO = {};
@@ -49,7 +49,7 @@ const ticTacToe = (function () {
 	return { createPlayer, currentPlayer, isUndecided };
 })();
 
-// Module to interact with DOM
+// To interact with DOM
 const DOM = (function () {
 	const _gridBoxes = document.querySelectorAll(".box");
 
