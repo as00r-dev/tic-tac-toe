@@ -2,73 +2,51 @@
 const gameBoard = (function () {
 	const _board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
 
-	const _isChoiceValid = function (choice) {
-		return choice === "X" || choice === "O" || choice === null;
-	};
-
-	const _isPositionValid = function (position) {
-		return position < 9 && position > -1;
-	};
-
-	const getItemAt = function (position) {
-		if (_isPositionValid(position)) {
-			const itemAtPosition = `${_board[position]}`;
-			return itemAtPosition;
-		} else {
-			return `ERROR: ${position} is not a position`;
-		}
+	const getState = function () {
+		// Returns one of 4 states - X won, O won, Draw, undecided
 	};
 
 	const setItemAt = function (choice, position) {
-		if (_isChoiceValid(choice) && _isPositionValid(position)) {
-			_board[position] = choice;
-			return `SUCCESS: added ${choice} at ${position}`;
-		} else {
-			return `ERROR: can't add ${choice} at ${position}`;
-		}
+		_board[position] = choice;
 	};
 
-	const resetBoard = function () {
+	const resetState = function () {
 		for (let i = 0; i < 9; i++) {
 			setItemAt(null, i);
 		}
 	};
 
 	return {
-		getItemAt,
+		getState,
 		setItemAt,
-		resetBoard,
+		resetState,
 	};
 })();
 
 // Main Game module
 const ticTacToe = (function () {
-	const _players = [];
+	let _playerX = {};
+	let _playerO = {};
 
 	const _playerFactory = function (name, choice) {
 		const playMove = (position) => gameBoard.setItemAt(choice, position);
-
 		return { name, choice, playMove };
 	};
 
-	const _emptyPlayersArray = function () {
-		for (let i = 0; i < _players.length; i++) {
-			_players.pop();
-		}
+	const isUndecided = function () {
+		return gameBoard.getState();
 	};
 
-	const startNewGame = function () {
-		gameBoard.resetBoard();
-		_emptyPlayersArray();
+	const currentPlayer = function () {
+		// Returns the current player
 	};
 
 	const createPlayer = function (name, choice) {
-		if (_players.length < 2) {
-			_players.push(_playerFactory(name, choice));
-		}
+		// call player factory and assign to
+		// _playerX or _playerO according to choice
 	};
 
-	return { startNewGame, createPlayer };
+	return { createPlayer, currentPlayer, isUndecided };
 })();
 
 // Module to interact with DOM
@@ -76,21 +54,18 @@ const DOM = (function () {
 	const _gridBoxes = document.querySelectorAll(".box");
 
 	_gridBoxes.forEach((box) => {
-		box.addEventListener("click", handleClick);
+		box.addEventListener("click", _handleClick);
 	});
 
-	function handleClick(e) {
-		console.log(e.target);
+	function _handleClick(e) {
+		const player = ticTacToe.currentPlayer();
+		player.playMove(player.choice, +e.target.id);
+		if (!ticTacToe.isUndecided) {
+			_declareResult();
+		}
 	}
 
-	const displayBoardOnScreen = function () {
-		for (let i = 0; i < 9; i++) {
-			_gridBoxes[i].textContent = "";
-			if (gameBoard.getItemAt(i) !== "null") {
-				_gridBoxes[i].textContent = gameBoard.getItemAt(i);
-			}
-		}
+	const _declareResult = function () {
+		// Declares result
 	};
-
-	return { displayBoardOnScreen };
 })();
