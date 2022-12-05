@@ -96,6 +96,14 @@ h6 {
 	place-items: center;
 }
 
+main {
+	display: none;
+}
+
+.start-menu {
+	width: 100%;
+}
+
 /* Basic Responsive Type */
 @media screen and (max-width: 768px) {
 	:root {
