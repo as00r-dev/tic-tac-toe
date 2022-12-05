@@ -62,18 +62,14 @@ const ticTacToe = (function () {
 		return { name, choice, playMove };
 	};
 
+	// Returns false when game is won or draw
 	const isUndecided = function () {
-		return gameBoard.getState();
+		return gameBoard.getState() === "UNDECIDED";
 	};
 
-	const currentPlayer = function () {
-		// Returns the current player
-	};
+	const currentPlayer = function () {};
 
-	const createPlayer = function (name, choice) {
-		// call player factory and assign to
-		// _playerX or _playerO according to choice
-	};
+	const createPlayer = function (name, choice) {};
 
 	return { createPlayer, currentPlayer, isUndecided };
 })();
@@ -94,7 +90,5 @@ const DOM = (function () {
 		}
 	}
 
-	const _declareResult = function () {
-		// Declares result
-	};
+	const _declareResult = function () {};
 })();
