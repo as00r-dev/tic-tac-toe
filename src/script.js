@@ -3,6 +3,11 @@ const gameBoard = (function () {
 	const _board = [null, null, null, null, null, null, null, null, null];
 	let lastPlayer = null;
 
+	const getBoardItemAt = function (position) {
+		if (_board[position] === null) return "";
+		return `${_board[position]}`;
+	};
+
 	const getBoardCondition = function () {
 		if (_board[0] === _board[4] && _board[4] === _board[8]) {
 			if (_board[0] !== null) return `${_board[0]}`;
@@ -57,6 +62,7 @@ const gameBoard = (function () {
 
 	return {
 		getBoardCondition,
+		getBoardItemAt,
 		getLastPlayer,
 		resetState,
 		setItemAt,
@@ -98,9 +104,9 @@ const ticTacToe = (function () {
 		return gameBoard.getBoardCondition() === "UNDECIDED";
 	};
 
-	const startGame = function (heroName, enemyName, heroChoice, enemyChoice) {
-		_createPlayer(heroName, heroChoice);
-		_createPlayer(enemyName, enemyChoice);
+	const startGame = function (xName, oName) {
+		_createPlayer(xName, "X");
+		_createPlayer(oName, "O");
 		gameBoard.resetState();
 	};
 
@@ -110,21 +116,32 @@ const ticTacToe = (function () {
 // To interact with DOM
 const ui = (function () {
 	const _gridBoxes = document.querySelectorAll(".box");
+	const _startButton = document.querySelector("#startBtn");
+	const _startMenu = document.querySelector(".start-menu");
+	const _mainGame = document.querySelector("main");
 
 	const _handleGameClick = function (e) {
 		const player = ticTacToe.getCurrentPlayer();
-		// player.playMove(e.target.id);
-		console.log(e.target.id, player);
+		player.playMove(e.target.id);
+		for (let i = 0; i < _gridBoxes.length; i++) {
+			_gridBoxes[i].textContent = gameBoard.getBoardItemAt(i);
+			console.log(_gridBoxes[i].value);
+		}
 	};
 
 	_gridBoxes.forEach((box) => {
 		box.addEventListener("click", _handleGameClick);
 	});
 
-	const _handleMatchStartClick = function (e) {
-		// takes names, choice and calls ticTacToe.startGame()
-		// go from main menu to game screen
-	};
+	_startButton.addEventListener("click", _handleMatchStartClick);
+
+	function _handleMatchStartClick(e) {
+		const _xInput = document.querySelector("#X");
+		const _oInput = document.querySelector("#O");
+		ticTacToe.startGame(_xInput.value, _oInput.value);
+		_mainGame.classList.toggle("display-none");
+		_startMenu.classList.toggle("display-none");
+	}
 
 	const _declareResult = function () {
 		// open a modal declaring winner

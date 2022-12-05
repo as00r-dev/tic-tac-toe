@@ -96,7 +96,7 @@ h6 {
 	place-items: center;
 }
 
-main {
+.display-none {
 	display: none;
 }
 
