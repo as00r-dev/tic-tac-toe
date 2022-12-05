@@ -1,6 +1,6 @@
 // Board
 const gameBoard = (function () {
-	const _board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
+	const _board = [null, null, null, null, null, null, null, null, null];
 
 	// Returns "X" or "O" or "null" or "DRAW"
 	const getState = function () {
@@ -8,28 +8,28 @@ const gameBoard = (function () {
 			if (_board[0] !== null) return `${_board[0]}`;
 		}
 		if (_board[2] === _board[4] && _board[4] === _board[6]) {
-			if (_board[0] !== null) return `${_board[2]}`;
+			if (_board[2] !== null) return `${_board[2]}`;
 		}
 		if (_board[0] === _board[1] && _board[1] === _board[2]) {
 			if (_board[0] !== null) return `${_board[0]}`;
 		}
 		if (_board[3] === _board[4] && _board[4] === _board[5]) {
-			if (_board[0] !== null) return `${_board[3]}`;
+			if (_board[3] !== null) return `${_board[3]}`;
 		}
 		if (_board[6] === _board[7] && _board[7] === _board[8]) {
-			if (_board[0] !== null) return `${_board[6]}`;
+			if (_board[6] !== null) return `${_board[6]}`;
 		}
 		if (_board[0] === _board[3] && _board[3] === _board[6]) {
 			if (_board[0] !== null) return `${_board[0]}`;
 		}
 		if (_board[1] === _board[4] && _board[4] === _board[7]) {
-			if (_board[0] !== null) return `${_board[1]}`;
+			if (_board[1] !== null) return `${_board[1]}`;
 		}
 		if (_board[2] === _board[5] && _board[5] === _board[8]) {
-			if (_board[0] !== null) return `${_board[2]}`;
+			if (_board[2] !== null) return `${_board[2]}`;
 		}
 		if (_board.includes(null)) {
-			return `null`;
+			return `UNDECIDED`;
 		} else {
 			return `DRAW`;
 		}
