@@ -5,28 +5,28 @@ const gameBoard = (function () {
 	// Returns "X" or "O" or "null" or "DRAW"
 	const getState = function () {
 		if (_board[0] === _board[4] && _board[4] === _board[8]) {
-			return `${_board[0]}`;
+			if (_board[0] !== null) return `${_board[0]}`;
 		}
 		if (_board[2] === _board[4] && _board[4] === _board[6]) {
-			return `${_board[2]}`;
+			if (_board[0] !== null) return `${_board[2]}`;
 		}
 		if (_board[0] === _board[1] && _board[1] === _board[2]) {
-			return `${_board[0]}`;
+			if (_board[0] !== null) return `${_board[0]}`;
 		}
 		if (_board[3] === _board[4] && _board[4] === _board[5]) {
-			return `${_board[3]}`;
+			if (_board[0] !== null) return `${_board[3]}`;
 		}
 		if (_board[6] === _board[7] && _board[7] === _board[8]) {
-			return `${_board[6]}`;
+			if (_board[0] !== null) return `${_board[6]}`;
 		}
 		if (_board[0] === _board[3] && _board[3] === _board[6]) {
-			return `${_board[0]}`;
+			if (_board[0] !== null) return `${_board[0]}`;
 		}
 		if (_board[1] === _board[4] && _board[4] === _board[7]) {
-			return `${_board[1]}`;
+			if (_board[0] !== null) return `${_board[1]}`;
 		}
 		if (_board[2] === _board[5] && _board[5] === _board[8]) {
-			return `${_board[1]}`;
+			if (_board[0] !== null) return `${_board[2]}`;
 		}
 		if (_board.includes(null)) {
 			return `null`;
