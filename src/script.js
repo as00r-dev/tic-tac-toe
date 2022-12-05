@@ -2,8 +2,37 @@
 const gameBoard = (function () {
 	const _board = ["X", "O", "X", "X", "O", "X", "X", "O", "X"];
 
+	// Returns "X" or "O" or "null" or "DRAW"
 	const getState = function () {
-		// Returns one of 4 states - X won, O won, Draw, undecided
+		if (_board[0] === _board[4] && _board[4] === _board[8]) {
+			return `${_board[0]}`;
+		}
+		if (_board[2] === _board[4] && _board[4] === _board[6]) {
+			return `${_board[2]}`;
+		}
+		if (_board[0] === _board[1] && _board[1] === _board[2]) {
+			return `${_board[0]}`;
+		}
+		if (_board[3] === _board[4] && _board[4] === _board[5]) {
+			return `${_board[3]}`;
+		}
+		if (_board[6] === _board[7] && _board[7] === _board[8]) {
+			return `${_board[6]}`;
+		}
+		if (_board[0] === _board[3] && _board[3] === _board[6]) {
+			return `${_board[0]}`;
+		}
+		if (_board[1] === _board[4] && _board[4] === _board[7]) {
+			return `${_board[1]}`;
+		}
+		if (_board[2] === _board[5] && _board[5] === _board[8]) {
+			return `${_board[1]}`;
+		}
+		if (_board.includes(null)) {
+			return `null`;
+		} else {
+			return `DRAW`;
+		}
 	};
 
 	const setItemAt = function (choice, position) {
