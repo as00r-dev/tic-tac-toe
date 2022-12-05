@@ -2,7 +2,7 @@
 const gameBoard = (function () {
 	const _board = [null, null, null, null, null, null, null, null, null];
 
-	// Returns "X" or "O" or "null" or "DRAW"
+	// Returns "X" or "O" or "UNDECIDED" or "DRAW"
 	const getState = function () {
 		if (_board[0] === _board[4] && _board[4] === _board[8]) {
 			if (_board[0] !== null) return `${_board[0]}`;
