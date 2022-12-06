@@ -230,16 +230,6 @@ const ui = (function () {
 
 // AI Module
 const ai = (function () {
-	// a module for AI Enemy
-	// ---------------------
-	// will have 2 difficulty levels: EASY AND UNBEATABLE
-	// ---------------------
-	// will have a playMove method which gets auto triggered after
-	// human player has played their move
-	// ---------------------
-	// In easy mode, playMove plays a random move
-	// In unbeatable mode, playMove plays according to minmax algorithm
-
 	const playMoveEasy = function () {
 		let position = Math.floor(Math.random() * 9);
 		while (gameBoard.getBoardItemAt(position)) {
