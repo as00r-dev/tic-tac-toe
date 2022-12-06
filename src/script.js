@@ -161,11 +161,13 @@ const ui = (function () {
 		_resultScreen.classList.toggle("display-none");
 		_startMenu.classList.toggle("display-none");
 		for (let i = 0; i < _gridBoxes.length; i++) {
-			if (!_gridBoxes[i].firstElementChild.classList.contains("display-none")) {
-				_gridBoxes[i].firstElementChild.classList.add("display-none");
+			const oKitty = _gridBoxes[i].firstElementChild;
+			const xKitty = _gridBoxes[i].lastElementChild;
+			if (!oKitty.classList.contains("display-none")) {
+				oKitty.classList.add("display-none");
 			}
-			if (!_gridBoxes[i].lastElementChild.classList.contains("display-none")) {
-				_gridBoxes[i].lastElementChild.classList.add("display-none");
+			if (!xKitty.classList.contains("display-none")) {
+				xKitty.classList.add("display-none");
 			}
 		}
 	};
