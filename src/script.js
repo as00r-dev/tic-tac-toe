@@ -228,7 +228,7 @@ const ui = (function () {
 	_restartButton.addEventListener("click", _handleRestartClick);
 })();
 
-// AI Module
+// AI
 const ai = (function () {
 	const playMoveEasy = function () {
 		let position = Math.floor(Math.random() * 9);
