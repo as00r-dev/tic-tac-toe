@@ -249,7 +249,57 @@ const ai = (function () {
 	};
 
 	const playMoveHard = function () {
-		//plays hard move
+		let bestScore = -Infinity;
+		let bestMove;
+		for (let i = 0; i < 9; i++) {
+			if (!gameBoard.getBoardItemAt(i)) {
+				gameBoard.setItemAt("O", i);
+				const score = _minimax(false);
+				gameBoard.setItemAt(null, i);
+				if (score > bestScore) {
+					bestScore = score;
+					bestMove = i;
+				}
+			}
+		}
+		gameBoard.setItemAt("O", bestMove);
+	};
+
+	const _minimax = function (isMaximizing) {
+		const result = gameBoard.getBoardCondition();
+		const scores = {
+			X: -1,
+			O: 1,
+			DRAW: 0,
+		};
+
+		if (result !== "UNDECIDED") {
+			return scores[result];
+		}
+
+		if (isMaximizing) {
+			let bestScore = -Infinity;
+			for (let i = 0; i < 9; i++) {
+				if (!gameBoard.getBoardItemAt(i)) {
+					gameBoard.setItemAt("O", i);
+					const score = _minimax(false);
+					gameBoard.setItemAt(null, i);
+					bestScore = Math.max(bestScore, score);
+				}
+			}
+			return bestScore;
+		} else {
+			let bestScore = Infinity;
+			for (let i = 0; i < 9; i++) {
+				if (!gameBoard.getBoardItemAt(i)) {
+					gameBoard.setItemAt("X", i);
+					const score = _minimax(true);
+					gameBoard.setItemAt(null, i);
+					bestScore = Math.min(bestScore, score);
+				}
+			}
+			return bestScore;
+		}
 	};
 
 	return { playMoveEasy, playMoveHard };
