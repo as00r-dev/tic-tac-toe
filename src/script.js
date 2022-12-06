@@ -124,9 +124,13 @@ const ui = (function () {
 
 	const _handleGameClick = function (e) {
 		const player = ticTacToe.getCurrentPlayer();
-		if (!e.target.textContent) player.playMove(e.target.id);
+		if (!gameBoard.getBoardItemAt(e.target.id)) player.playMove(e.target.id);
 		for (let i = 0; i < _gridBoxes.length; i++) {
-			_gridBoxes[i].textContent = gameBoard.getBoardItemAt(i);
+			if (gameBoard.getBoardItemAt(i) === "X") {
+				_gridBoxes[i].lastElementChild.classList.remove("display-none");
+			} else if (gameBoard.getBoardItemAt(i) === "O") {
+				_gridBoxes[i].firstElementChild.classList.remove("display-none");
+			}
 		}
 		if (
 			gameBoard.getBoardCondition() === "X" ||
@@ -150,7 +154,12 @@ const ui = (function () {
 		_resultScreen.classList.toggle("display-none");
 		_startMenu.classList.toggle("display-none");
 		for (let i = 0; i < _gridBoxes.length; i++) {
-			_gridBoxes[i].textContent = gameBoard.getBoardItemAt(i);
+			if (!_gridBoxes[i].firstElementChild.classList.contains("display-none")) {
+				_gridBoxes[i].firstElementChild.classList.add("display-none");
+			}
+			if (!_gridBoxes[i].lastElementChild.classList.contains("display-none")) {
+				_gridBoxes[i].lastElementChild.classList.add("display-none");
+			}
 		}
 	};
 
