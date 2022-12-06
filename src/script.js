@@ -172,14 +172,6 @@ const ui = (function () {
 		}
 	};
 
-	_gridBoxes.forEach((box) => {
-		box.addEventListener("click", _handleGameClick);
-	});
-
-	_startButton.addEventListener("click", _handleMatchStartClick);
-
-	_restartButton.addEventListener("click", _handleRestartClick);
-
 	const _declareResult = function () {
 		const resultText = gameBoard.getBoardCondition();
 		_resultContainer.textContent = "";
@@ -191,4 +183,25 @@ const ui = (function () {
 		_resultScreen.classList.toggle("display-none");
 		_mainGame.classList.toggle("display-none");
 	};
+
+	_gridBoxes.forEach((box) => {
+		box.addEventListener("click", _handleGameClick);
+	});
+
+	_startButton.addEventListener("click", _handleMatchStartClick);
+
+	_restartButton.addEventListener("click", _handleRestartClick);
+})();
+
+// AI Module
+const ai = (function () {
+	// a module for AI Enemy
+	// ---------------------
+	// will have 2 difficulty levels: EASY AND UNBEATABLE
+	// ---------------------
+	// will have a playMove method which gets auto triggered after
+	// human player has played their move
+	// ---------------------
+	// In easy mode, playMove plays a random move
+	// In unbeatable mode, playMove plays according to minmax algorithm
 })();
