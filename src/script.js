@@ -99,7 +99,6 @@ const ticTacToe = (function () {
 		return winner;
 	};
 
-	// Returns false when game is won or draw
 	const isUndecided = function () {
 		return gameBoard.getBoardCondition() === "UNDECIDED";
 	};
@@ -162,12 +161,6 @@ const ui = (function () {
 	_startButton.addEventListener("click", _handleMatchStartClick);
 
 	_restartButton.addEventListener("click", _handleRestartClick);
-
-	const _createElement = function (type, className) {
-		const elem = document.createElement(type);
-		elem.classList.add(className);
-		return elem;
-	};
 
 	const _declareResult = function () {
 		const resultText = gameBoard.getBoardCondition();
