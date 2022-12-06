@@ -119,13 +119,39 @@ const ui = (function () {
 	const _startButton = document.querySelector("#startBtn");
 	const _startMenu = document.querySelector(".start-menu");
 	const _mainGame = document.querySelector("main");
+	const _resultScreen = document.querySelector(".result-screen");
+	const _restartButton = document.querySelector("#restart");
+	const _resultContainer = document.querySelector(".result-container");
 
 	const _handleGameClick = function (e) {
 		const player = ticTacToe.getCurrentPlayer();
-		player.playMove(e.target.id);
+		if (!e.target.textContent) player.playMove(e.target.id);
 		for (let i = 0; i < _gridBoxes.length; i++) {
 			_gridBoxes[i].textContent = gameBoard.getBoardItemAt(i);
-			console.log(_gridBoxes[i].value);
+		}
+		if (
+			gameBoard.getBoardCondition() === "X" ||
+			gameBoard.getBoardCondition() === "O" ||
+			gameBoard.getBoardCondition() === "DRAW"
+		) {
+			_declareResult();
+		}
+	};
+
+	const _handleMatchStartClick = function (e) {
+		const _xInput = document.querySelector("#X");
+		const _oInput = document.querySelector("#O");
+		ticTacToe.startGame(_xInput.value, _oInput.value);
+		_mainGame.classList.toggle("display-none");
+		_startMenu.classList.toggle("display-none");
+	};
+
+	const _handleRestartClick = function (e) {
+		gameBoard.resetState();
+		_resultScreen.classList.toggle("display-none");
+		_startMenu.classList.toggle("display-none");
+		for (let i = 0; i < _gridBoxes.length; i++) {
+			_gridBoxes[i].textContent = gameBoard.getBoardItemAt(i);
 		}
 	};
 
@@ -135,15 +161,23 @@ const ui = (function () {
 
 	_startButton.addEventListener("click", _handleMatchStartClick);
 
-	function _handleMatchStartClick(e) {
-		const _xInput = document.querySelector("#X");
-		const _oInput = document.querySelector("#O");
-		ticTacToe.startGame(_xInput.value, _oInput.value);
-		_mainGame.classList.toggle("display-none");
-		_startMenu.classList.toggle("display-none");
-	}
+	_restartButton.addEventListener("click", _handleRestartClick);
+
+	const _createElement = function (type, className) {
+		const elem = document.createElement(type);
+		elem.classList.add(className);
+		return elem;
+	};
 
 	const _declareResult = function () {
-		// open a modal declaring winner
+		const resultText = gameBoard.getBoardCondition();
+		_resultContainer.textContent = "";
+		if (resultText === "DRAW") {
+			_resultContainer.textContent = "ITS A DRAW!";
+		} else {
+			_resultContainer.textContent = `${resultText} WON!`;
+		}
+		_resultScreen.classList.toggle("display-none");
+		_mainGame.classList.toggle("display-none");
 	};
 })();
