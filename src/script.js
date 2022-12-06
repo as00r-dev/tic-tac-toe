@@ -72,7 +72,7 @@ const gameBoard = (function () {
 const ticTacToe = (function () {
 	let _playerX;
 	let _playerO;
-
+	let mode = "LOCAL";
 	let winner;
 
 	const _playerFactory = function (name, choice) {
@@ -104,13 +104,18 @@ const ticTacToe = (function () {
 		return gameBoard.getBoardCondition() === "UNDECIDED";
 	};
 
-	const startGame = function (xName, oName) {
+	const startGame = function (xName, oName, modeName) {
 		_createPlayer(xName, "X");
 		_createPlayer(oName, "O");
+		mode = modeName;
 		gameBoard.resetState();
 	};
 
-	return { getCurrentPlayer, isUndecided, getWinner, startGame };
+	const getGameMode = function () {
+		return mode;
+	};
+
+	return { getCurrentPlayer, isUndecided, getWinner, startGame, getGameMode };
 })();
 
 // To interact with DOM
@@ -127,19 +132,14 @@ const ui = (function () {
 
 	const _handleGameClick = function (e) {
 		const player = ticTacToe.getCurrentPlayer();
+		const gameMode = ticTacToe.getGameMode();
 
 		if (!gameBoard.getBoardItemAt(e.target.id)) player.playMove(e.target.id);
 
-		for (let i = 0; i < _gridBoxes.length; i++) {
-			const boardItem = gameBoard.getBoardItemAt(i);
-			const xKitty = _gridBoxes[i].lastElementChild;
-			const oKitty = _gridBoxes[i].firstElementChild;
-			if (boardItem === "X") {
-				xKitty.classList.remove("display-none");
-			} else if (boardItem === "O") {
-				oKitty.classList.remove("display-none");
-			}
-		}
+		if (gameMode === "EASY") ai.playMoveEasy();
+		if (gameMode === "HARD") ai.playMoveHard();
+
+		_renderBoard();
 
 		if (
 			gameBoard.getBoardCondition() === "X" ||
@@ -150,20 +150,41 @@ const ui = (function () {
 		}
 	};
 
+	const _renderBoard = function () {
+		for (let i = 0; i < _gridBoxes.length; i++) {
+			const boardItem = gameBoard.getBoardItemAt(i);
+			const xKitty = _gridBoxes[i].lastElementChild;
+			const oKitty = _gridBoxes[i].firstElementChild;
+			if (boardItem === "X") {
+				xKitty.classList.remove("display-none");
+			} else if (boardItem === "O") {
+				oKitty.classList.remove("display-none");
+			}
+		}
+	};
+
 	const _handleLocal = function (e) {
 		const _xInput = document.querySelector("#X");
 		const _oInput = document.querySelector("#O");
-		ticTacToe.startGame(_xInput.value, _oInput.value);
+		ticTacToe.startGame(_xInput.value, _oInput.value, "LOCAL");
 		_mainGame.classList.toggle("display-none");
 		_startMenu.classList.toggle("display-none");
 	};
 
 	const _handleEasy = function () {
 		// for easy mode button
+		const _xInput = document.querySelector("#X");
+		ticTacToe.startGame(_xInput.value, "Easy Bot", "EASY");
+		_mainGame.classList.toggle("display-none");
+		_startMenu.classList.toggle("display-none");
 	};
 
 	const _handleHard = function () {
 		// for hard mode button
+		const _xInput = document.querySelector("#X");
+		ticTacToe.startGame(_xInput.value, "Hard Bot", "HARD");
+		_mainGame.classList.toggle("display-none");
+		_startMenu.classList.toggle("display-none");
 	};
 
 	const _handleRestartClick = function (e) {
@@ -221,7 +242,7 @@ const ai = (function () {
 
 	const playMoveEasy = function () {
 		let position = Math.floor(Math.random() * 9);
-		while (gameBoard.getBoardItemAt(position) === null) {
+		while (gameBoard.getBoardItemAt(position)) {
 			position = Math.floor(Math.random() * 9);
 		}
 		gameBoard.setItemAt("O", position);
@@ -231,5 +252,5 @@ const ai = (function () {
 		//plays hard move
 	};
 
-	return { playMoveEasy };
+	return { playMoveEasy, playMoveHard };
 })();
