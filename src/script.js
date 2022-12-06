@@ -3,6 +3,10 @@ const gameBoard = (function () {
 	const _board = [null, null, null, null, null, null, null, null, null];
 	let lastPlayer = null;
 
+	const _setLastPlayer = function (choice) {
+		lastPlayer = choice;
+	};
+
 	const getBoardItemAt = function (position) {
 		if (_board[position] === null) return "";
 		return `${_board[position]}`;
@@ -53,10 +57,6 @@ const gameBoard = (function () {
 
 	const getLastPlayer = function () {
 		return lastPlayer;
-	};
-
-	const _setLastPlayer = function (choice) {
-		lastPlayer = choice;
 	};
 
 	return {
@@ -125,14 +125,20 @@ const ui = (function () {
 
 	const _handleGameClick = function (e) {
 		const player = ticTacToe.getCurrentPlayer();
+
 		if (!gameBoard.getBoardItemAt(e.target.id)) player.playMove(e.target.id);
+
 		for (let i = 0; i < _gridBoxes.length; i++) {
-			if (gameBoard.getBoardItemAt(i) === "X") {
-				_gridBoxes[i].lastElementChild.classList.remove("display-none");
-			} else if (gameBoard.getBoardItemAt(i) === "O") {
-				_gridBoxes[i].firstElementChild.classList.remove("display-none");
+			const boardItem = gameBoard.getBoardItemAt(i);
+			const xKitty = _gridBoxes[i].lastElementChild;
+			const oKitty = _gridBoxes[i].firstElementChild;
+			if (boardItem === "X") {
+				xKitty.classList.remove("display-none");
+			} else if (boardItem === "O") {
+				oKitty.classList.remove("display-none");
 			}
 		}
+
 		if (
 			gameBoard.getBoardCondition() === "X" ||
 			gameBoard.getBoardCondition() === "O" ||
