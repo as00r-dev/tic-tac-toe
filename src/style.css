@@ -135,6 +135,15 @@ input {
 	width: 100%;
 }
 
+.start-menu ul {
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+}
+
 .start-menu .container {
 	flex-direction: row;
 }

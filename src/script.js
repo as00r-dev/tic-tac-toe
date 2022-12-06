@@ -116,7 +116,9 @@ const ticTacToe = (function () {
 // To interact with DOM
 const ui = (function () {
 	const _gridBoxes = document.querySelectorAll(".box");
-	const _startButton = document.querySelector("#startBtn");
+	const _startLocal = document.querySelector("#startLocal");
+	const _startEasy = document.querySelector("#startEasy");
+	const _startHard = document.querySelector("#startHard");
 	const _startMenu = document.querySelector(".start-menu");
 	const _mainGame = document.querySelector("main");
 	const _resultScreen = document.querySelector(".result-screen");
@@ -148,12 +150,20 @@ const ui = (function () {
 		}
 	};
 
-	const _handleMatchStartClick = function (e) {
+	const _handleLocal = function (e) {
 		const _xInput = document.querySelector("#X");
 		const _oInput = document.querySelector("#O");
 		ticTacToe.startGame(_xInput.value, _oInput.value);
 		_mainGame.classList.toggle("display-none");
 		_startMenu.classList.toggle("display-none");
+	};
+
+	const _handleEasy = function () {
+		// for easy mode button
+	};
+
+	const _handleHard = function () {
+		// for hard mode button
 	};
 
 	const _handleRestartClick = function (e) {
@@ -188,7 +198,11 @@ const ui = (function () {
 		box.addEventListener("click", _handleGameClick);
 	});
 
-	_startButton.addEventListener("click", _handleMatchStartClick);
+	_startLocal.addEventListener("click", _handleLocal);
+
+	_startEasy.addEventListener("click", _handleEasy);
+
+	_startHard.addEventListener("click", _handleHard);
 
 	_restartButton.addEventListener("click", _handleRestartClick);
 })();
@@ -204,4 +218,18 @@ const ai = (function () {
 	// ---------------------
 	// In easy mode, playMove plays a random move
 	// In unbeatable mode, playMove plays according to minmax algorithm
+
+	const playMoveEasy = function () {
+		let position = Math.floor(Math.random() * 9);
+		while (gameBoard.getBoardItemAt(position) === null) {
+			position = Math.floor(Math.random() * 9);
+		}
+		gameBoard.setItemAt("O", position);
+	};
+
+	const playMoveHard = function () {
+		//plays hard move
+	};
+
+	return { playMoveEasy };
 })();
