@@ -9,34 +9,33 @@ const gameBoard = (function () {
 	};
 
 	const getBoardCondition = function () {
-		if (_board[0] === _board[4] && _board[4] === _board[8]) {
-			if (_board[0] !== null) return `${_board[0]}`;
+		const winningConditions = [
+			[0, 4, 8],
+			[2, 4, 6],
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8],
+		];
+
+		for (let i = 0; i < winningConditions.length; i++) {
+			const [a, b, c] = winningConditions[i];
+
+			if (
+				_board[a] !== null &&
+				_board[a] === _board[b] &&
+				_board[b] === _board[c]
+			) {
+				return _board[a];
+			}
 		}
-		if (_board[2] === _board[4] && _board[4] === _board[6]) {
-			if (_board[2] !== null) return `${_board[2]}`;
-		}
-		if (_board[0] === _board[1] && _board[1] === _board[2]) {
-			if (_board[0] !== null) return `${_board[0]}`;
-		}
-		if (_board[3] === _board[4] && _board[4] === _board[5]) {
-			if (_board[3] !== null) return `${_board[3]}`;
-		}
-		if (_board[6] === _board[7] && _board[7] === _board[8]) {
-			if (_board[6] !== null) return `${_board[6]}`;
-		}
-		if (_board[0] === _board[3] && _board[3] === _board[6]) {
-			if (_board[0] !== null) return `${_board[0]}`;
-		}
-		if (_board[1] === _board[4] && _board[4] === _board[7]) {
-			if (_board[1] !== null) return `${_board[1]}`;
-		}
-		if (_board[2] === _board[5] && _board[5] === _board[8]) {
-			if (_board[2] !== null) return `${_board[2]}`;
-		}
+
 		if (_board.includes(null)) {
-			return `UNDECIDED`;
+			return "UNDECIDED";
 		} else {
-			return `DRAW`;
+			return "DRAW";
 		}
 	};
 
@@ -96,7 +95,9 @@ const ticTacToe = (function () {
 	};
 
 	const getWinner = function () {
-		return winner;
+		if (gameBoard.getBoardCondition() === "X") return _playerX;
+		if (gameBoard.getBoardCondition() === "O") return _playerO;
+		return "NO WINNER";
 	};
 
 	const isUndecided = function () {
@@ -177,7 +178,7 @@ const ui = (function () {
 		if (resultText === "DRAW") {
 			_resultContainer.textContent = "ITS A DRAW!";
 		} else {
-			_resultContainer.textContent = `${resultText} WON!`;
+			_resultContainer.textContent = `${ticTacToe.getWinner().name} WON!`;
 		}
 		_resultScreen.classList.toggle("display-none");
 		_mainGame.classList.toggle("display-none");
