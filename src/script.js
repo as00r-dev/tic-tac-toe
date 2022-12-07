@@ -244,7 +244,7 @@ const ai = (function () {
 		for (let i = 0; i < 9; i++) {
 			if (!gameBoard.getBoardItemAt(i)) {
 				gameBoard.setItemAt("O", i);
-				const score = _minimax(false);
+				const score = _minimax(0, false);
 				gameBoard.setItemAt(null, i);
 				if (score > bestScore) {
 					bestScore = score;
@@ -255,7 +255,7 @@ const ai = (function () {
 		gameBoard.setItemAt("O", bestMove);
 	};
 
-	const _minimax = function (isMaximizing) {
+	const _minimax = function (depth, isMaximizing) {
 		const result = gameBoard.getBoardCondition();
 		const scores = {
 			X: -1,
@@ -267,29 +267,24 @@ const ai = (function () {
 			return scores[result];
 		}
 
-		if (isMaximizing) {
-			let bestScore = -Infinity;
-			for (let i = 0; i < 9; i++) {
-				if (!gameBoard.getBoardItemAt(i)) {
+		let bestScore = isMaximizing ? -Infinity : Infinity;
+
+		for (let i = 0; i < 9; i++) {
+			let score;
+			if (!gameBoard.getBoardItemAt(i)) {
+				if (isMaximizing) {
 					gameBoard.setItemAt("O", i);
-					const score = _minimax(false);
-					gameBoard.setItemAt(null, i);
+					score = _minimax(depth + 1, false);
 					bestScore = Math.max(bestScore, score);
-				}
-			}
-			return bestScore;
-		} else {
-			let bestScore = Infinity;
-			for (let i = 0; i < 9; i++) {
-				if (!gameBoard.getBoardItemAt(i)) {
+				} else {
 					gameBoard.setItemAt("X", i);
-					const score = _minimax(true);
-					gameBoard.setItemAt(null, i);
+					score = _minimax(depth + 1, true);
 					bestScore = Math.min(bestScore, score);
 				}
+				gameBoard.setItemAt(null, i);
 			}
-			return bestScore;
 		}
+		return bestScore;
 	};
 
 	return { playMoveEasy, playMoveHard };
