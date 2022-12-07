@@ -258,8 +258,8 @@ const ai = (function () {
 	const _minimax = function (depth, isMaximizing) {
 		const result = gameBoard.getBoardCondition();
 		const scores = {
-			X: -1,
-			O: 1,
+			X: depth - 10,
+			O: 10 - depth,
 			DRAW: 0,
 		};
 
